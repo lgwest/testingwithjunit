@@ -17,11 +17,15 @@ public class DrugConcept {
         this.drugClassesInConcept = drugClassesInConcept;
     }
 
-    public boolean isDrugInConcept(DispensableDrug drug) {
+    public boolean isDrugInConceptOld(DispensableDrug drug) {
         Objects.requireNonNull(drug, "Drug must not be null for comparison to drug concepts.");
         HashSet<DrugClassification> drugClassifications = new HashSet<>(Arrays.asList(drug.drugClassifications()));
         drugClassifications.retainAll(Arrays.asList(drugClassesInConcept));
         return !drugClassifications.isEmpty();
+    }
+    public boolean isDrugInConcept(DispensableDrug drug) {
+        return Arrays.stream(drugClassesInConcept).toList().stream().anyMatch(
+                drugClass -> Arrays.stream(drug.drugClassifications()).toList().contains(drugClass));
     }
 }
 
